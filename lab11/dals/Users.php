@@ -44,6 +44,16 @@
      $stmn->execute(array($id));
      return $stmn->fetch(PDO::FETCH_ASSOC);
    }
+
+   function findByUserNamePwd($username,$pwd){
+     $stmn = $this->pdo->prepare('SELECT * from '.self::TABLE_NAME.' WHERE username=? AND pwd=?');
+     $stmn->execute(array($username,$pwd));
+     if($stmn->rowCount()==0){
+       return $stmn->rowCount();
+     }else{
+       return $stmn->fetch(PDO::FETCH_ASSOC);
+     }
+   }
  }
 
 ?>
