@@ -11,10 +11,6 @@
 	<div class="room-wrapper">
 		<div class="room-view">
 			<ul>
-				<li><strong>Username</strong>:<span>Hello !!!</span></li>
-				<li><strong>Username</strong>:<span>Hello !!!</span></li>
-				<li><strong>Username</strong>:<span>Hello !!!</span></li>
-				<li><strong>Username</strong>:<span>Hello !!!</span></li>
 			</ul>
 		</div>
 
@@ -51,13 +47,32 @@
 					data: {user_name: username, msg: $('.message').val()},
 				})
 				.done(function(data) {
-					$('.room-view ul').append(`<li><strong>${data.username}</strong>:<span>${data.message}</span></li>`);
+
 					$('.message').val('');
 				})
 			});
+
+			var last_id = 0;
+			setInterval(function(){
+				//lay ve tin nhan moi nhat 
+				$.ajax({
+					url: '../server/list_msg.php?last_id='+last_id,
+					type: 'GET',
+					dataType: 'json'
+				})
+				.done(function(resp) {
+					if(resp.num>0){
+						for(i=0;i<resp.data.length;i++){
+							$('.room-view ul').append(`<li><strong>${resp.data[i].username}</strong>:<span>${resp.data[i].message}</span></li>`);
+						}
+						last_id =resp.data[resp.data.length-1].id ///lay ve last id
+					}
+				})
+			}, 2000);
 		}else{
 			//khi ma user bang null
 		}
+
 	});
 </script>
 </body>
