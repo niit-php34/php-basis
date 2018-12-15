@@ -52,8 +52,16 @@ try {
     $user_name = 'admin';
 
     //cac lenh insert , update lam tuong tu
-
-
+    $preparestm = $conn->prepare('INSERT INTO
+      users(user_name,pwd,full_name,address,phone)
+    VALUES(:user_name,:pwd,:full_name,:address,:phone)');
+    $preparestm->execute(array(
+      ':user_name'=>'Koddinh',
+      ':pwd'=>'pwd',
+      ':full_name'=>'Nguyen Thanh Luan',
+      ':address'=>'address',
+      ':phone'=>'phone'
+    ));
 } catch (\Exception $e) {
     echo $e;
 }
